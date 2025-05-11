@@ -20,7 +20,9 @@ function getQueryArray() {
   return queryArray;
 }
 
-if (getQueryArray()[0].treatment == '1') {
+let queryArray = getQueryArray()[0];
+
+if (queryArray && queryArray.treatment == '1') {
   document.documentElement.style.backgroundColor = "rgb(0, 150, 255)";
 };
 
