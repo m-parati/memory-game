@@ -1,0 +1,8 @@
+:root {
+    --tile-color: #5fa2ff;
+    --highlight-color: rgb(91, 124, 255);
+    --active-color: rgb(82, 189, 255);
+    --highlight-text-color: #ffffff;
+
+    background-color: rgb(143, 208, 255);
+}

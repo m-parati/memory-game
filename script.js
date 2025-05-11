@@ -3,6 +3,7 @@ let gameStatus = document.getElementById("game-status");
 let button = document.getElementById("start-button");
 let score = document.getElementById("game-score");
 let timer = document.getElementById("game-timer");
+let theme = document.getElementById("theme-stylesheet");
 
 function getQueryArray() {
   const queryString = window.location.search;
@@ -24,7 +25,7 @@ function getQueryArray() {
 let queryArray = getQueryArray();
 
 if (queryArray && queryArray.treatment == '1') {
-  document.documentElement.style.backgroundColor = "rgb(0, 150, 255)";
+  theme.setAttribute("href", "themes/blue.css");
 };
 
 class Tile {
@@ -55,6 +56,19 @@ class Tile {
       }
     })
 
+    this.element.addEventListener("mouseover", () => {
+      if (this.active) {
+        this.number.innerHTML = game.round - game.currentSequence.length + 1;
+        this.number.style.display = "block";
+      }
+    });
+
+    this.element.addEventListener("mouseout", () => {
+      if (this.active) {
+        this.number.style.display = "none";
+      }
+    });
+
     board.appendChild(element);
   }
   
@@ -67,6 +81,7 @@ class Tile {
   deactivate() {
     this.active = false;
 
+    this.number.style.display = "none";
     this.element.classList.remove("active");
   }
 
@@ -88,6 +103,7 @@ class Game {
     button.addEventListener("click", () => {
       this.start();
     });
+
   }
 
   initialize() {
@@ -107,7 +123,7 @@ class Game {
     this.tiles = [];
 
     // Create new tiles
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < 9; i++) {
       let newTile = new Tile(i, this);
 
       this.tiles[i] = newTile;
@@ -171,14 +187,14 @@ class Game {
     this.currentSequence.push(tile.index);
 
     tile.element.classList.add("highlight");
-    this.number.innerText = this.round;
-    this.number.display = "span";
+    tile.number.innerText = this.currentSequence.length;
+    tile.number.style.display = "block";
 
-    let roundTime = 1400 / Math.pow(2, this.round / 6);
+    let roundTime = 1000// / Math.pow(2, this.round / 6);
 
     setTimeout(() => {
       tile.element.classList.remove("highlight");
-      this.number.display = "none";
+      tile.number.style.display = "none";
       
 
     }, roundTime * 0.75);
@@ -200,8 +216,6 @@ class Game {
   }
 
   click(tile) {
-    console.log(`${tile.index}, ${this.currentSequence[0]}`)
-
     if (this.currentSequence[0] == tile.index) {
       gameStatus.innerText = "Remaining tiles: " + (this.currentSequence.length - 1);
 
