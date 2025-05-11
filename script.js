@@ -157,7 +157,7 @@ class Game {
     tile.element.classList.add("highlight");
 
 
-    let roundTime = 1000 / Math.pow(2, this.round / 4);
+    let roundTime = 1200 / Math.pow(2, this.round / 6);
 
     setTimeout(() => {
       tile.element.classList.remove("highlight");
