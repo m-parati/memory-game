@@ -18,10 +18,10 @@ function getQueryArray() {
       queryArray.push({ [key]: value });
   }
 
-  return queryArray;
+  return queryArray[0];
 }
 
-let queryArray = getQueryArray()[0];
+let queryArray = getQueryArray();
 
 if (queryArray && queryArray.treatment == '1') {
   document.documentElement.style.backgroundColor = "rgb(0, 150, 255)";
@@ -30,6 +30,7 @@ if (queryArray && queryArray.treatment == '1') {
 class Tile {
   index;
   element;
+  number;
   game;
   active = false;
 
@@ -38,8 +39,14 @@ class Tile {
     element.classList.add("game-tile");
     element.setAttribute("data-index", index);
 
+    let number = document.createElement("span");
+    number.innerText = 0;
+    number.classList.add("tile-number");
+    element.appendChild(number);
+
     this.index = index;
     this.element = element;
+    this.number = number;
     this.game = game;
 
     this.element.addEventListener("click", () => {
@@ -113,9 +120,16 @@ class Game {
     score.innerText = "Score: 0";
 
     let timeLeft = 60;
-    this.timerInterval = setInterval(() => {
+
+    function updateTimer() {
       timer.innerText = `Timer: ${timeLeft}`;
       timeLeft--;
+    }
+
+    updateTimer();
+
+    this.timerInterval = setInterval(() => {
+      updateTimer();
 
       if (timeLeft < 0) {
         clearInterval(this.timerInterval);
@@ -157,12 +171,16 @@ class Game {
     this.currentSequence.push(tile.index);
 
     tile.element.classList.add("highlight");
-
+    this.number.innerText = this.round;
+    this.number.display = "span";
 
     let roundTime = 1400 / Math.pow(2, this.round / 6);
 
     setTimeout(() => {
       tile.element.classList.remove("highlight");
+      this.number.display = "none";
+      
+
     }, roundTime * 0.75);
 
     setTimeout(() => {
@@ -182,9 +200,6 @@ class Game {
   }
 
   click(tile) {
-    let tileElement = tile.element;
-    let index = tile.index;
-
     console.log(`${tile.index}, ${this.currentSequence[0]}`)
 
     if (this.currentSequence[0] == tile.index) {
