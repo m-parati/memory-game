@@ -110,6 +110,8 @@ class Game {
   start() {
     button.style.display = "none";
 
+    score.innerText = "Score: 0";
+
     let timeLeft = 60;
     this.timerInterval = setInterval(() => {
       timer.innerText = `Timer: ${timeLeft}`;
@@ -157,7 +159,7 @@ class Game {
     tile.element.classList.add("highlight");
 
 
-    let roundTime = 1200 / Math.pow(2, this.round / 6);
+    let roundTime = 1400 / Math.pow(2, this.round / 6);
 
     setTimeout(() => {
       tile.element.classList.remove("highlight");
