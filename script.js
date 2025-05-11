@@ -2,6 +2,7 @@ let board = document.getElementById("game-board");
 let gameStatus = document.getElementById("game-status");
 let button = document.getElementById("start-button");
 let score = document.getElementById("game-score");
+let timer = document.getElementById("game-timer");
 
 function getQueryArray() {
   const queryString = window.location.search;
@@ -72,6 +73,8 @@ class Tile {
 class Game {
   tiles = [];
   round = 0;
+  startId = 0;
+  timerInterval = null;
   currentSequence = [];
 
   constructor() {
@@ -83,8 +86,11 @@ class Game {
   initialize() {
     button.style.display = "block";
 
+    timer.innerText = "Timer: 0";
+
     this.round = 0;
     this.currentSequence = [];
+    this.startId++;
 
     // Restart tiles
     for (let tile of this.tiles) {
@@ -103,6 +109,19 @@ class Game {
 
   start() {
     button.style.display = "none";
+
+    let timeLeft = 5;
+    this.timerInterval = setInterval(() => {
+      timer.innerText = `Timer: ${timeLeft + 1}`;
+      timeLeft--;
+
+      if (timeLeft < 0) {
+        clearInterval(this.timerInterval);
+
+        this.gameOver();
+        this.initialize();
+      }
+    }, 1000);
 
     this.startNextRound();
   }
@@ -137,9 +156,12 @@ class Game {
 
     tile.element.classList.add("highlight");
 
+
+    let roundTime = 1000 / Math.pow(2, this.round / 4);
+
     setTimeout(() => {
       tile.element.classList.remove("highlight");
-    }, 500);
+    }, roundTime * 0.75);
 
     setTimeout(() => {
       if (this.currentSequence.length < this.round) {
@@ -147,7 +169,7 @@ class Game {
       } else {
         this.waitForUserInput();
       }
-    }, 1000);
+    }, roundTime);
 
   }
 
@@ -175,6 +197,8 @@ class Game {
       if (this.currentSequence.length == 0) {
         gameStatus.innerText = "Correct! Next round!";
 
+        score.innerText = `Score: ${this.round}`;
+
         setTimeout(() => {
           this.startNextRound();
         }, 1000);  
@@ -183,14 +207,23 @@ class Game {
       }
 
     } else {
-      gameStatus.innerText = `Wrong! Game over!`;
+      this.gameOver();
+    }
+ 
+  }
+
+  gameOver() {
+    gameStatus.innerText = `Wrong! Game over!`;
 
       this.deactivateAllTiles();
 
       setTimeout(() => {
         this.initialize();
       }, 1000);
-    }
+
+      if (this.timerInterval) {
+        clearInterval(this.timerInterval);
+      }
   }
 }
 
