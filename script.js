@@ -110,7 +110,7 @@ class Game {
   start() {
     button.style.display = "none";
 
-    let timeLeft = 5;
+    let timeLeft = 60;
     this.timerInterval = setInterval(() => {
       timer.innerText = `Timer: ${timeLeft + 1}`;
       timeLeft--;
