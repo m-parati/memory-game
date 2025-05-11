@@ -112,7 +112,7 @@ class Game {
 
     let timeLeft = 60;
     this.timerInterval = setInterval(() => {
-      timer.innerText = `Timer: ${timeLeft + 1}`;
+      timer.innerText = `Timer: ${timeLeft}`;
       timeLeft--;
 
       if (timeLeft < 0) {
@@ -207,13 +207,13 @@ class Game {
       }
 
     } else {
-      this.gameOver();
+      this.gameOver("Wrong! Game Over!");
     }
  
   }
 
-  gameOver() {
-    gameStatus.innerText = `Wrong! Game over!`;
+  gameOver(message) {
+    gameStatus.innerText = message || "Game Over!";
 
       this.deactivateAllTiles();
 
