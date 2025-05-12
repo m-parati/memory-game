@@ -2,7 +2,7 @@ let board = document.getElementById("game-board");
 let gameStatus = document.getElementById("game-status");
 let button = document.getElementById("start-button");
 let score = document.getElementById("game-score");
-let timer = document.getElementById("game-timer");
+// let timer = document.getElementById("game-timer");
 let theme = document.getElementById("theme-stylesheet");
 
 function getQueryArray() {
@@ -109,7 +109,7 @@ class Game {
   initialize() {
     button.style.display = "block";
 
-    timer.innerText = "Timer: 0";
+    // timer.innerText = "Timer: 0";
 
     this.round = 0;
     this.currentSequence = [];
@@ -135,25 +135,25 @@ class Game {
 
     score.innerText = "Score: 0";
 
-    let timeLeft = 60;
+    // let timeLeft = 60;
 
-    function updateTimer() {
-      timer.innerText = `Timer: ${timeLeft}`;
-      timeLeft--;
-    }
+    // function updateTimer() {
+    //   timer.innerText = `Timer: ${timeLeft}`;
+    //   timeLeft--;
+    // }
 
-    updateTimer();
+    // updateTimer();
 
-    this.timerInterval = setInterval(() => {
-      updateTimer();
+    // this.timerInterval = setInterval(() => {
+    //   updateTimer();
 
-      if (timeLeft < 0) {
-        clearInterval(this.timerInterval);
+    //   if (timeLeft < 0) {
+    //     clearInterval(this.timerInterval);
 
-        this.gameOver();
-        this.initialize();
-      }
-    }, 1000);
+    //     this.gameOver();
+    //     this.initialize();
+    //   }
+    // }, 1000);
 
     this.startNextRound();
   }
