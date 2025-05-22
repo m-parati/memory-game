@@ -23,6 +23,21 @@
 /* h1, h2, h3, h4, h5, h6 {
   font-family: yoster;
 } */
+ 
+#footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  margin: 20px auto;
+}
+
+#footer > * {
+  margin: 0.3em;
+  font-size: 0.8em;
+}
 
 /* Game board */
 #game-board {
